@@ -5,8 +5,110 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Order_Generator"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        Title="Order Generator" Height="450" Width="800" WindowStartupLocation="CenterScreen" AllowsTransparency="True" WindowStyle="None">
+    <materialDesign:DrawerHost x:Name="mainDrawer">
+        <materialDesign:DrawerHost.LeftDrawerContent>
+            <StackPanel Orientation="Vertical">
+                <StackPanel Margin="10" VerticalAlignment="Top" Orientation="Horizontal">
+                    <TextBlock 
+                    VerticalAlignment="Center"
+                    Margin="0,0,10,0">Create order</TextBlock>
+                    <Button Style="{StaticResource MaterialDesignFlatButton}"
+                        Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}">
+                        <materialDesign:PackIcon Kind="HamburgerMenuBack" Foreground="White"></materialDesign:PackIcon>
+                    </Button>
+                </StackPanel>
+                <StackPanel Orientation="Vertical">
+                    <Button Style="{StaticResource MaterialDesignFlatButton}"
+                            Foreground="White" Click="dataheaderBtnClicked"
+                            Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}">DATAHEADER</Button>
+                    <Button Style="{StaticResource MaterialDesignFlatButton}" 
+                            Foreground="White" Click="datalinesBtnClicked"
+                            Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}">DATALINES</Button>
+                </StackPanel>
+            </StackPanel>
+        </materialDesign:DrawerHost.LeftDrawerContent>
+        <materialDesign:Card HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MouseDown="Card_MouseDown" Margin="0,0,0,-0.4">
+            <materialDesign:Card.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="Black" Offset="1"/>
+                    <GradientStop Color="#FF595555"/>
+                </LinearGradientBrush>
+            </materialDesign:Card.Background>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0" Orientation="Vertical" Margin="10">
+                    <StackPanel Orientation="Horizontal">
+                        <Button Style="{StaticResource MaterialDesignFlatButton}" Command="{x:Static materialDesign:DrawerHost.OpenDrawerCommand}"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Top">
+                            <materialDesign:PackIcon Kind="HamburgerMenu" Foreground="White"></materialDesign:PackIcon>
+                        </Button>
+                        <TextBlock VerticalAlignment="Center" Text="Order Generator"></TextBlock>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <StackPanel Orientation="Horizontal" Margin="4">
+                            <RadioButton x:Name="dataheaderRadio" 
+                                         Style="{StaticResource MaterialDesignTabRadioButton}"
+                                         Margin="4"
+                                         IsChecked="True"
+                                         Content="Dataheader"></RadioButton>
+                            <RadioButton x:Name="datalinesRadio" 
+                                         Style="{StaticResource MaterialDesignTabRadioButton}"
+                                         Margin="4"
+                                         IsChecked="False"
+                                         Content="Dataline"></RadioButton>
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel Grid.Column="2" Orientation="Vertical" Margin="10">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button Style="{StaticResource MaterialDesignFlatButton}" 
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Top" Height="24" Click="closeBtnClicked">
+                            <materialDesign:PackIcon Kind="CloseBox" Foreground="White"/>
+                        </Button>
+                    </StackPanel>
+                </StackPanel>
+                <!--Dataheader Datagrid START-->
+                <ContentControl
+                    x:Name="dataheader_dataGrid" 
+                    Grid.Row="0" 
+                    Grid.RowSpan="2" 
+                    Grid.ColumnSpan="3" 
+                    Visibility="Visible" 
+                    Margin="10,80,-0.4,50" >
+                    <Grid Background="White" Margin="10">
+                        <DataGrid 
+                                x:Name="TBC"
+                                ItemsSource="{Binding}"
+                                AutoGenerateColumns="True" 
+                                IsReadOnly="False" 
+                                CanUserAddRows="True"
+                                ScrollViewer.VerticalScrollBarVisibility="Visible" Background="#FF797979">
+                            
+                        </DataGrid>
+                    </Grid>
+
+                </ContentControl>
+                <TextBox x:Name="dataheaderTextBox" HorizontalAlignment="Left" Height="23" Margin="116,401,0,0" TextWrapping="Wrap" Text="Enter Dataheader ID" TextAlignment="Center" VerticalAlignment="Top" Width="120" Grid.ColumnSpan="2" Grid.Column="1" MouseDown="dataheaderTextBoxClick" PreviewMouseDown="dataheaderTextBoxClick" LostFocus="dataheaderTextBoxLostFocus"/>
+                <Button Content="Load" HorizontalAlignment="Left" Margin="41,400,0,0" VerticalAlignment="Top" Width="72" Height="27" Grid.Column="2" Click="loadBtnClick"/>
+                <Button Content="Next" HorizontalAlignment="Left" Margin="118,400,0,0" VerticalAlignment="Top" Width="72" Height="27" Grid.Column="2"/>
+
+
+            </Grid>
+        </materialDesign:Card>
+    </materialDesign:DrawerHost>
 </Window>
