@@ -1,40 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using Microsoft.Office.Interop.Excel;
-using Type = System.Type;
 using Window = System.Windows.Window;
 using System.Data;
 using DataTable = System.Data.DataTable;
 
 namespace Order_Generator
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
-        public List<Data> PackOrder { get; set; }
-        DataTable getExcel = GetExcelData.getExcelData();
-        //DataTable dt = new DataTable();
-
+        readonly DataTable _excelDataTable = GetExcelData.getExcelData();
+       
         public MainWindow()
         {
             InitializeComponent();
-            TBC.ItemsSource = getExcel.DefaultView;
-
-
         }
 
         private void Card_MouseDown(object sender, MouseButtonEventArgs e)
@@ -54,6 +33,11 @@ namespace Order_Generator
             mainDrawer.IsLeftDrawerOpen = false;
             dataheaderRadio.IsChecked = true;
             datalinesRadio.IsChecked = false;
+            loadBtn.Visibility = Visibility.Visible;
+            dataheaderTextBox.Visibility = Visibility.Visible;
+            nextBtn.Visibility = Visibility.Visible;
+            TBC.Visibility = Visibility.Visible;
+            dataheaderContent.Visibility = Visibility.Visible;
         }
 
         private void datalinesBtnClicked(object sender, RoutedEventArgs e)
@@ -61,6 +45,12 @@ namespace Order_Generator
             mainDrawer.IsLeftDrawerOpen = false;
             dataheaderRadio.IsChecked = false;
             datalinesRadio.IsChecked = true;
+            loadBtn.Visibility = Visibility.Hidden;
+            dataheaderTextBox.Visibility = Visibility.Hidden;
+            nextBtn.Visibility = Visibility.Hidden;
+            TBC.Visibility = Visibility.Hidden;
+            TBC2.Visibility = Visibility.Hidden;
+            dataheaderContent.Visibility = Visibility.Hidden;
         }
 
         private void closeBtnClicked(object sender, RoutedEventArgs e)
@@ -75,42 +65,73 @@ namespace Order_Generator
 
         private void dataheaderTextBoxLostFocus(object sender, RoutedEventArgs e)
         {
-            dataheaderTextBox.Text = "Enter Dataheader ID";
+            //if (!loadBtnWasClicked)
+            //{
+            //    dataheaderTextBox.Text = "Enter Dataheader ID";
+            //}
         }
 
         private void loadBtnClick(object sender, RoutedEventArgs e)
         {
+            if (dataheaderTextBox.Text == "Enter Dataheader ID") return;
             try
             {
-
+                var dataheaderID = Convert.ToString(dataheaderTextBox.Text);
+                var selectedTable = _excelDataTable.AsEnumerable()
+                    .Where(r => r.Field<string>("ID") == dataheaderID)
+                    .CopyToDataTable();
+                TBC.ItemsSource = selectedTable.DefaultView;
             }
-            catch (Exception exception)
+            catch
             {
-                
+                //MessageBox.Show($"{exception}", "Unable to return data", button:MessageBoxButton.OK, MessageBoxImage.Exclamation);
             }
+        }
 
-            //var dataheaderID = Convert.ToInt32(dataheaderTextBox.Text);
+        private void nextBtnClick(object sender, RoutedEventArgs e)
+        {
+            mainDrawer.IsLeftDrawerOpen = false;
+            dataheaderRadio.IsChecked = false;
+            datalinesRadio.IsChecked = true;
+            loadBtn.Visibility = Visibility.Hidden;
+            dataheaderTextBox.Visibility = Visibility.Hidden;
+            nextBtn.Visibility = Visibility.Hidden;
+            TBC.Visibility = Visibility.Hidden;
 
-            int dataheaderID = 3;
+            try
+            {
+                DataView dv = (DataView) TBC.ItemsSource;
+                DataTable dt = ((DataView) TBC.ItemsSource).Table;
+            }
+            catch
+            {
+                //ignore
+            }
+        }
 
-            //int.TryParse(dataheaderTextBox.Text, out dataheaderID);
-            //dt.Rows.Add();
+        private void dataheaderRdioClick(object sender, RoutedEventArgs e)
+        {
+            mainDrawer.IsLeftDrawerOpen = false;
+            dataheaderRadio.IsChecked = true;
+            datalinesRadio.IsChecked = false;
+            loadBtn.Visibility = Visibility.Visible;
+            dataheaderTextBox.Visibility = Visibility.Visible;
+            nextBtn.Visibility = Visibility.Visible;
+            TBC.Visibility = Visibility.Visible;
+            dataheaderContent.Visibility = Visibility.Visible;
+        }
 
-            //getExcel.Rows.Add(textBoxID.Text, textBoxFN.Text, textBoxLN.Text, textBoxAGE.Text);
-
-            //var query = from o in getExcel
-            //    select
-
-            TBC.ItemsSource = (System.Collections.IEnumerable)getExcel;
-
-            //Cast<GetExcelData>() = getExcel
-            //.Where(item => item.ID == "3")
-            //.Select(item => item.Make);
-
-
-            //getExcel
-            //.AsEnumerable()
-            //.Where(myRow => myRow.Field<string>("ID") == "3");
+        private void datalinesRdioClick(object sender, RoutedEventArgs e)
+        {
+            mainDrawer.IsLeftDrawerOpen = false;
+            dataheaderRadio.IsChecked = false;
+            datalinesRadio.IsChecked = true;
+            loadBtn.Visibility = Visibility.Hidden;
+            dataheaderTextBox.Visibility = Visibility.Hidden;
+            nextBtn.Visibility = Visibility.Hidden;
+            TBC.Visibility = Visibility.Hidden;
+            TBC2.Visibility = Visibility.Hidden;
+            dataheaderContent.Visibility = Visibility.Hidden;
         }
     }
 }

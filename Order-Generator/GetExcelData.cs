@@ -40,7 +40,8 @@ namespace Order_Generator
 
                 var Column = new DataColumn();
                 Column.DataType = System.Type.GetType("System.String");
-                Column.ColumnName = NumCol.ToString();
+                Column.ColumnName = (values[1, NumCol]).ToString();
+                //Column.ColumnName = NumCol.ToString();
                 dt.Columns.Add(Column);
 
                 //for (int i = 1; i <= 1; i++)
@@ -52,11 +53,12 @@ namespace Order_Generator
 
 
             //Microsoft.Office.Interop.Excel.Range range = gXlWs.get_Range("A1", "F188000");
-            for (int NumRow = 1; NumRow <= NumRows; NumRow++)
+            for (int NumRow = 2; NumRow <= NumRows; NumRow++)
             {
                 
                 for (int i = 1; i <= NumCols; i++)
                 {
+                    //set tostring
                     Fields[i - 1] = Convert.ToString(values[NumRow, i]);
 
                 }
@@ -65,7 +67,8 @@ namespace Order_Generator
                
             }
 
-            
+            WB.Close(false, null, null);
+            excelApp.Quit();
 
             //var Column = new DataColumn();
             //Column.DataType = System.Type.GetType("System.String");

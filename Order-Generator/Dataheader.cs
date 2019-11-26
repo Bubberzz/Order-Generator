@@ -4,7 +4,7 @@ namespace Order_Generator
 {
     public partial class Dataheader : MainWindow
     {
-        public List<Data> Employees { get; set; }
+        //public List<Data> Employees { get; set; }
         public List<string> Genders { get; set; }
 
 

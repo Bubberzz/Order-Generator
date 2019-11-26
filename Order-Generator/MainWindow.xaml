@@ -64,12 +64,12 @@
                                          Style="{StaticResource MaterialDesignTabRadioButton}"
                                          Margin="4"
                                          IsChecked="True"
-                                         Content="Dataheader"></RadioButton>
+                                         Content="Dataheader" Click="dataheaderRdioClick"/>
                             <RadioButton x:Name="datalinesRadio" 
                                          Style="{StaticResource MaterialDesignTabRadioButton}"
                                          Margin="4"
                                          IsChecked="False"
-                                         Content="Dataline"></RadioButton>
+                                         Content="Dataline" Click="datalinesRdioClick"/>
                         </StackPanel>
                     </StackPanel>
                 </StackPanel>
@@ -84,10 +84,10 @@
                 </StackPanel>
                 <!--Dataheader Datagrid START-->
                 <ContentControl
-                    x:Name="dataheader_dataGrid" 
+                    x:Name="dataheaderContent" 
                     Grid.Row="0" 
                     Grid.RowSpan="2" 
-                    Grid.ColumnSpan="3" 
+                    Grid.ColumnSpan="3" Grid.Column="0"
                     Visibility="Visible" 
                     Margin="10,80,-0.4,50" >
                     <Grid Background="White" Margin="10">
@@ -96,16 +96,23 @@
                                 ItemsSource="{Binding}"
                                 AutoGenerateColumns="True" 
                                 IsReadOnly="False" 
-                                CanUserAddRows="True"
+                                CanUserAddRows="False"
                                 ScrollViewer.VerticalScrollBarVisibility="Visible" Background="#FF797979">
-                            
+                        </DataGrid>
+                        <DataGrid 
+                            x:Name="TBC2"
+                            ItemsSource="{Binding}"
+                            AutoGenerateColumns="True" 
+                            IsReadOnly="False" 
+                            CanUserAddRows="False"
+                            ScrollViewer.VerticalScrollBarVisibility="Hidden" Background="#FF797979">
                         </DataGrid>
                     </Grid>
-
+                    
                 </ContentControl>
                 <TextBox x:Name="dataheaderTextBox" HorizontalAlignment="Left" Height="23" Margin="116,401,0,0" TextWrapping="Wrap" Text="Enter Dataheader ID" TextAlignment="Center" VerticalAlignment="Top" Width="120" Grid.ColumnSpan="2" Grid.Column="1" MouseDown="dataheaderTextBoxClick" PreviewMouseDown="dataheaderTextBoxClick" LostFocus="dataheaderTextBoxLostFocus"/>
-                <Button Content="Load" HorizontalAlignment="Left" Margin="41,400,0,0" VerticalAlignment="Top" Width="72" Height="27" Grid.Column="2" Click="loadBtnClick"/>
-                <Button Content="Next" HorizontalAlignment="Left" Margin="118,400,0,0" VerticalAlignment="Top" Width="72" Height="27" Grid.Column="2"/>
+                <Button x:Name="loadBtn" Content="Load" HorizontalAlignment="Left" Margin="41,400,0,0" VerticalAlignment="Top" Width="72" Height="27" Grid.Column="2" Click="loadBtnClick"/>
+                <Button x:Name="nextBtn" Content="Next" HorizontalAlignment="Left" Margin="118,400,0,0" VerticalAlignment="Top" Width="72" Height="27" Grid.Column="2" Click="nextBtnClick"/>
 
 
             </Grid>
