@@ -9,8 +9,10 @@ namespace Order_Generator
 {
     public partial class MainWindow : Window
     {
-        readonly DataTable _excelDataTable = GetExcelData.getExcelData();
-       
+        readonly DataTable _dataheaderDataTable = GetDataheader.getExcelData();
+        readonly DataTable _datalinesDataTable = GetDatalines.getExcelData();
+        private DataTable _selectedTable = new DataTable();
+
         public MainWindow()
         {
             InitializeComponent();
@@ -36,8 +38,9 @@ namespace Order_Generator
             loadBtn.Visibility = Visibility.Visible;
             dataheaderTextBox.Visibility = Visibility.Visible;
             nextBtn.Visibility = Visibility.Visible;
-            TBC.Visibility = Visibility.Visible;
-            dataheaderContent.Visibility = Visibility.Visible;
+            datalineTextBox.Visibility = Visibility.Hidden;
+            createBtn.Visibility = Visibility.Hidden;
+            TBC.ItemsSource = _selectedTable.DefaultView;
         }
 
         private void datalinesBtnClicked(object sender, RoutedEventArgs e)
@@ -48,9 +51,9 @@ namespace Order_Generator
             loadBtn.Visibility = Visibility.Hidden;
             dataheaderTextBox.Visibility = Visibility.Hidden;
             nextBtn.Visibility = Visibility.Hidden;
-            TBC.Visibility = Visibility.Hidden;
-            TBC2.Visibility = Visibility.Hidden;
-            dataheaderContent.Visibility = Visibility.Hidden;
+            datalineTextBox.Visibility = Visibility.Visible;
+            createBtn.Visibility = Visibility.Visible;
+            TBC.ItemsSource = _datalinesDataTable.DefaultView;
         }
 
         private void closeBtnClicked(object sender, RoutedEventArgs e)
@@ -77,10 +80,10 @@ namespace Order_Generator
             try
             {
                 var dataheaderID = Convert.ToString(dataheaderTextBox.Text);
-                var selectedTable = _excelDataTable.AsEnumerable()
+                _selectedTable = _dataheaderDataTable.AsEnumerable()
                     .Where(r => r.Field<string>("ID") == dataheaderID)
                     .CopyToDataTable();
-                TBC.ItemsSource = selectedTable.DefaultView;
+                TBC.ItemsSource = _selectedTable.DefaultView;
             }
             catch
             {
@@ -96,12 +99,14 @@ namespace Order_Generator
             loadBtn.Visibility = Visibility.Hidden;
             dataheaderTextBox.Visibility = Visibility.Hidden;
             nextBtn.Visibility = Visibility.Hidden;
-            TBC.Visibility = Visibility.Hidden;
+            datalineTextBox.Visibility = Visibility.Visible;
+            createBtn.Visibility = Visibility.Visible;
+            TBC.ItemsSource = _datalinesDataTable.DefaultView;
 
             try
             {
-                DataView dv = (DataView) TBC.ItemsSource;
-                DataTable dt = ((DataView) TBC.ItemsSource).Table;
+                var dv = (DataView) TBC.ItemsSource;
+                var dt = ((DataView) TBC.ItemsSource).Table;
             }
             catch
             {
@@ -117,8 +122,9 @@ namespace Order_Generator
             loadBtn.Visibility = Visibility.Visible;
             dataheaderTextBox.Visibility = Visibility.Visible;
             nextBtn.Visibility = Visibility.Visible;
-            TBC.Visibility = Visibility.Visible;
-            dataheaderContent.Visibility = Visibility.Visible;
+            datalineTextBox.Visibility = Visibility.Hidden;
+            createBtn.Visibility = Visibility.Hidden;
+            TBC.ItemsSource = _selectedTable.DefaultView;
         }
 
         private void datalinesRdioClick(object sender, RoutedEventArgs e)
@@ -129,9 +135,9 @@ namespace Order_Generator
             loadBtn.Visibility = Visibility.Hidden;
             dataheaderTextBox.Visibility = Visibility.Hidden;
             nextBtn.Visibility = Visibility.Hidden;
-            TBC.Visibility = Visibility.Hidden;
-            TBC2.Visibility = Visibility.Hidden;
-            dataheaderContent.Visibility = Visibility.Hidden;
+            datalineTextBox.Visibility = Visibility.Visible;
+            createBtn.Visibility = Visibility.Visible;
+            TBC.ItemsSource = _datalinesDataTable.DefaultView;
         }
     }
 }

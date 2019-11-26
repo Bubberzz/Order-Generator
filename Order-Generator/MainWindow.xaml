@@ -17,12 +17,10 @@
     <materialDesign:DrawerHost x:Name="mainDrawer">
         <materialDesign:DrawerHost.LeftDrawerContent>
             <StackPanel Orientation="Vertical">
-                <StackPanel Margin="10" VerticalAlignment="Top" Orientation="Horizontal">
-                    <TextBlock 
-                    VerticalAlignment="Center"
-                    Margin="0,0,10,0">Create order</TextBlock>
+                <StackPanel Margin="10" VerticalAlignment="Top" Orientation="Horizontal" FlowDirection="RightToLeft">
                     <Button Style="{StaticResource MaterialDesignFlatButton}"
-                        Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}">
+                            Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}"
+                            HorizontalAlignment="Right">
                         <materialDesign:PackIcon Kind="HamburgerMenuBack" Foreground="White"></materialDesign:PackIcon>
                     </Button>
                 </StackPanel>
@@ -99,20 +97,16 @@
                                 CanUserAddRows="False"
                                 ScrollViewer.VerticalScrollBarVisibility="Visible" Background="#FF797979">
                         </DataGrid>
-                        <DataGrid 
-                            x:Name="TBC2"
-                            ItemsSource="{Binding}"
-                            AutoGenerateColumns="True" 
-                            IsReadOnly="False" 
-                            CanUserAddRows="False"
-                            ScrollViewer.VerticalScrollBarVisibility="Hidden" Background="#FF797979">
-                        </DataGrid>
                     </Grid>
                     
                 </ContentControl>
-                <TextBox x:Name="dataheaderTextBox" HorizontalAlignment="Left" Height="23" Margin="116,401,0,0" TextWrapping="Wrap" Text="Enter Dataheader ID" TextAlignment="Center" VerticalAlignment="Top" Width="120" Grid.ColumnSpan="2" Grid.Column="1" MouseDown="dataheaderTextBoxClick" PreviewMouseDown="dataheaderTextBoxClick" LostFocus="dataheaderTextBoxLostFocus"/>
-                <Button x:Name="loadBtn" Content="Load" HorizontalAlignment="Left" Margin="41,400,0,0" VerticalAlignment="Top" Width="72" Height="27" Grid.Column="2" Click="loadBtnClick"/>
-                <Button x:Name="nextBtn" Content="Next" HorizontalAlignment="Left" Margin="118,400,0,0" VerticalAlignment="Top" Width="72" Height="27" Grid.Column="2" Click="nextBtnClick"/>
+
+                <TextBox x:Name="dataheaderTextBox" Visibility="Visible"  HorizontalAlignment="Left" Height="23" Margin="116,401,0,0" TextWrapping="Wrap" Text="Enter Dataheader ID" TextAlignment="Center" VerticalAlignment="Top" Width="120" Grid.ColumnSpan="2" Grid.Column="1" MouseDown="dataheaderTextBoxClick" PreviewMouseDown="dataheaderTextBoxClick" LostFocus="dataheaderTextBoxLostFocus"/>
+                <Button x:Name="loadBtn" Visibility="Visible"  Content="Load" HorizontalAlignment="Left" Margin="41,400,0,0" VerticalAlignment="Top" Width="72" Height="27" Grid.Column="2" Click="loadBtnClick"/>
+                <Button x:Name="nextBtn" Visibility="Visible"  Content="Next" HorizontalAlignment="Left" Margin="118,400,0,0" VerticalAlignment="Top" Width="72" Height="27" Grid.Column="2" Click="nextBtnClick"/>
+
+                <TextBox x:Name="datalineTextBox" Visibility="hidden"  HorizontalAlignment="Left" Height="23" Margin="190,401,0,0" TextWrapping="Wrap" Text="Enter order amount" TextAlignment="Center" VerticalAlignment="Top" Width="120" Grid.ColumnSpan="2" Grid.Column="1" MouseDown="dataheaderTextBoxClick" PreviewMouseDown="dataheaderTextBoxClick" LostFocus="dataheaderTextBoxLostFocus"/>
+                <Button x:Name="createBtn" Visibility="hidden"  Content="Create" HorizontalAlignment="Left" Margin="118,400,0,0" VerticalAlignment="Top" Width="72" Height="27" Grid.Column="2" Click="nextBtnClick"/>
 
 
             </Grid>

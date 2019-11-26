@@ -77,9 +77,9 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Data.cs" />
-    <Compile Include="Dataheader.cs" />
-    <Compile Include="GetExcelData.cs" />
+    <Compile Include="GetDataheader.cs" />
+    <Compile Include="GetDatalines.cs" />
+    <Compile Include="GetSettings.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
