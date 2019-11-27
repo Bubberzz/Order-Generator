@@ -77,6 +77,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="CreateXML.cs" />
     <Compile Include="GetDataheader.cs" />
     <Compile Include="GetDatalines.cs" />
     <Compile Include="GetSettings.cs" />

@@ -98,15 +98,15 @@
                                 ScrollViewer.VerticalScrollBarVisibility="Visible" Background="#FF797979">
                         </DataGrid>
                     </Grid>
-                    
+
                 </ContentControl>
 
-                <TextBox x:Name="dataheaderTextBox" Visibility="Visible"  HorizontalAlignment="Left" Height="23" Margin="116,401,0,0" TextWrapping="Wrap" Text="Enter Dataheader ID" TextAlignment="Center" VerticalAlignment="Top" Width="120" Grid.ColumnSpan="2" Grid.Column="1" MouseDown="dataheaderTextBoxClick" PreviewMouseDown="dataheaderTextBoxClick" LostFocus="dataheaderTextBoxLostFocus"/>
+                <TextBox x:Name="dataheaderTextBox" Visibility="Visible"  HorizontalAlignment="Left" Height="23" Margin="111,401,0,0" TextWrapping="Wrap" Text="Enter Dataheader ID" TextAlignment="Center" VerticalAlignment="Top" Width="120" Grid.ColumnSpan="2" Grid.Column="1" PreviewMouseDown="dataheaderTextBoxClick"/>
                 <Button x:Name="loadBtn" Visibility="Visible"  Content="Load" HorizontalAlignment="Left" Margin="41,400,0,0" VerticalAlignment="Top" Width="72" Height="27" Grid.Column="2" Click="loadBtnClick"/>
                 <Button x:Name="nextBtn" Visibility="Visible"  Content="Next" HorizontalAlignment="Left" Margin="118,400,0,0" VerticalAlignment="Top" Width="72" Height="27" Grid.Column="2" Click="nextBtnClick"/>
 
-                <TextBox x:Name="datalineTextBox" Visibility="hidden"  HorizontalAlignment="Left" Height="23" Margin="190,401,0,0" TextWrapping="Wrap" Text="Enter order amount" TextAlignment="Center" VerticalAlignment="Top" Width="120" Grid.ColumnSpan="2" Grid.Column="1" MouseDown="dataheaderTextBoxClick" PreviewMouseDown="dataheaderTextBoxClick" LostFocus="dataheaderTextBoxLostFocus"/>
-                <Button x:Name="createBtn" Visibility="hidden"  Content="Create" HorizontalAlignment="Left" Margin="118,400,0,0" VerticalAlignment="Top" Width="72" Height="27" Grid.Column="2" Click="nextBtnClick"/>
+                <TextBox x:Name="datalineTextBox" Visibility="Hidden"  HorizontalAlignment="Left" Height="23" Margin="185,401,0,0" TextWrapping="Wrap" Text="Enter order amount" TextAlignment="Center" VerticalAlignment="Top" Width="120" Grid.ColumnSpan="2" Grid.Column="1" PreviewMouseDown="datalinesTextBoxClick"/>
+                <Button x:Name="createBtn" Visibility="Hidden"  Content="Create" HorizontalAlignment="Left" Margin="113,400,0,0" VerticalAlignment="Top" Width="77" Height="27" Grid.Column="2" Click="CreateBtn_OnClickBtnClick"/>
 
 
             </Grid>

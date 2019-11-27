@@ -1,20 +1,25 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
 using Window = System.Windows.Window;
 using System.Data;
+using System.Linq;
+using System.Windows.Documents;
 using DataTable = System.Data.DataTable;
 
 namespace Order_Generator
 {
     public partial class MainWindow : Window
     {
+        private List<string> settings = GetSettings.getSettings();
         readonly DataTable _dataheaderDataTable = GetDataheader.getExcelData();
         readonly DataTable _datalinesDataTable = GetDatalines.getExcelData();
         private DataTable _selectedTable = new DataTable();
 
         public MainWindow()
         {
+            
             InitializeComponent();
         }
 
@@ -65,17 +70,14 @@ namespace Order_Generator
         {
             dataheaderTextBox.Text = "";
         }
-
-        private void dataheaderTextBoxLostFocus(object sender, RoutedEventArgs e)
+        private void datalinesTextBoxClick(object sender, MouseButtonEventArgs e)
         {
-            //if (!loadBtnWasClicked)
-            //{
-            //    dataheaderTextBox.Text = "Enter Dataheader ID";
-            //}
+            datalineTextBox.Text = "";
         }
 
         private void loadBtnClick(object sender, RoutedEventArgs e)
         {
+
             if (dataheaderTextBox.Text == "Enter Dataheader ID") return;
             try
             {
@@ -139,5 +141,38 @@ namespace Order_Generator
             createBtn.Visibility = Visibility.Visible;
             TBC.ItemsSource = _datalinesDataTable.DefaultView;
         }
+
+        private void CreateBtn_OnClickBtnClick(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var orderAmount = Convert.ToInt32(datalineTextBox.Text);
+            }
+            catch
+            {
+                
+            }
+
+            CreateXML.createXML(_selectedTable, _datalinesDataTable);
+
+            //CreateXML.createXML(_selectedTable);
+
+
+
+
+            //string stg = "";
+            //var testList = new List<string>
+            //{
+            //    "order_id 12 " + stg,
+            //    "host_line_id 13 ",
+            //    "line_id 14 ",
+            //};
+
+            //GetSettings.setSettings(testList);
+
+
+
+        }
+
     }
 }

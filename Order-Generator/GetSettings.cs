@@ -1,29 +1,39 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
+using System.Text.RegularExpressions;
+using System.Windows.Documents;
 
 namespace Order_Generator
 {
-    class GetSettings
+    public class GetSettings
     {
-        public static string getSettings()
+        public static List<string> getSettings()
         {
+            var settings = new List<string>();
             var reader = File.OpenText("settings.txt");
-            string datasample;
-            while ((datasample = reader.ReadLine()) != null)
-            {
-                int x = int.Parse(reader.ReadLine());
-            }
+            string line;
 
-            return "";
+            while ((line = reader.ReadLine()) != null)
+            {
+                var resultString = Regex.Match(line, @"\d+").Value;
+                //var result = int.Parse(resultString);
+                settings.Add(resultString);
+            }
+            reader.Close();
+            return settings;
         }
 
-        public void setSettings()
+        public static void setSettings(List<string> inputList)
         {
-
+            using (var outputFile = new StreamWriter("settings.txt"))
+            {
+                foreach (var line in inputList)
+                {
+                    outputFile.WriteLine(line);
+                }
+            }
         }
     }
 }
