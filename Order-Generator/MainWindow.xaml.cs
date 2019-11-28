@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Data;
 using System.Windows;
 using System.Windows.Input;
+using System.Collections.Generic;
 using Window = System.Windows.Window;
-using System.Data;
-using System.Linq;
-using System.Windows.Documents;
 using DataTable = System.Data.DataTable;
 
 namespace Order_Generator
@@ -19,7 +17,6 @@ namespace Order_Generator
 
         public MainWindow()
         {
-            
             InitializeComponent();
         }
 
@@ -70,6 +67,7 @@ namespace Order_Generator
         {
             dataheaderTextBox.Text = "";
         }
+
         private void datalinesTextBoxClick(object sender, MouseButtonEventArgs e)
         {
             datalineTextBox.Text = "";
@@ -153,24 +151,10 @@ namespace Order_Generator
                 
             }
 
-            CreateXML.createXML(_selectedTable, _datalinesDataTable);
-
-            //CreateXML.createXML(_selectedTable);
-
-
-
-
-            //string stg = "";
-            //var testList = new List<string>
-            //{
-            //    "order_id 12 " + stg,
-            //    "host_line_id 13 ",
-            //    "line_id 14 ",
-            //};
-
-            //GetSettings.setSettings(testList);
-
-
+            var fileName = CreateXML.createXML(_selectedTable, _datalinesDataTable);
+            var path = System.IO.Path.GetDirectoryName(
+                System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase);
+            MessageBox.Show($@"{fileName} has been saved to {path}\orders", "Successfully saved!");
 
         }
 

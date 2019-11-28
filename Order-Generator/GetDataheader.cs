@@ -1,5 +1,5 @@
-﻿using System;
-using Excel = Microsoft.Office.Interop.Excel;
+﻿using Excel = Microsoft.Office.Interop.Excel;
+using System;
 using System.Data;
 
 namespace Order_Generator
@@ -31,9 +31,7 @@ namespace Order_Generator
                 
                 for (var i = 1; i <= NumCols; i++)
                 {
-                    //set tostring
                     Fields[i - 1] = Convert.ToString(values[NumRow, i]);
-
                 }
                 dt.Rows.Add(Fields);
             }
