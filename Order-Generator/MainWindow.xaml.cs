@@ -3,6 +3,7 @@ using System.Data;
 using System.Windows;
 using System.Windows.Input;
 using System.Collections.Generic;
+using System.Linq;
 using Window = System.Windows.Window;
 using DataTable = System.Data.DataTable;
 
@@ -105,8 +106,8 @@ namespace Order_Generator
 
             try
             {
-                var dv = (DataView) TBC.ItemsSource;
-                var dt = ((DataView) TBC.ItemsSource).Table;
+                var dv = (DataView)TBC.ItemsSource;
+                var dt = ((DataView)TBC.ItemsSource).Table;
             }
             catch
             {
@@ -142,21 +143,41 @@ namespace Order_Generator
 
         private void CreateBtn_OnClickBtnClick(object sender, RoutedEventArgs e)
         {
+            var dataheaderDataTable = _selectedTable.Clone();
+            var datalinesDataTable = _datalinesDataTable.Clone();
+            int orderAmount;
+
             try
             {
-                var orderAmount = Convert.ToInt32(datalineTextBox.Text);
+                orderAmount = Convert.ToInt32(datalineTextBox.Text);
             }
-            catch
+            catch (Exception)
             {
-                
+                orderAmount = 1;
             }
 
-            var fileName = CreateXML.createXML(_selectedTable, _datalinesDataTable);
-            var path = System.IO.Path.GetDirectoryName(
-                System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase);
+            for (var i = 0; i < orderAmount; i++)
+            {
+                foreach (DataRow dr in _selectedTable.Rows)
+                {
+                    if (!dr.IsNull("ID"))
+                    {
+                        dataheaderDataTable.Rows.Add(dr.ItemArray);
+                    }
+                }
+            }
+
+            foreach (DataRow dr in _datalinesDataTable.Rows)
+            {
+                if (!dr.IsNull("Client_Id"))
+                {
+                    datalinesDataTable.Rows.Add(dr.ItemArray);
+                }
+            }
+
+            var fileName = CreateXML.createXML(dataheaderDataTable, datalinesDataTable);
+            var path = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase);
             MessageBox.Show($@"{fileName} has been saved to {path}\orders", "Successfully saved!");
-
         }
-
     }
 }

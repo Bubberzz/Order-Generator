@@ -94,7 +94,7 @@
                                 ItemsSource="{Binding}"
                                 AutoGenerateColumns="True" 
                                 IsReadOnly="False" 
-                                CanUserAddRows="False"
+                                CanUserAddRows="True"
                                 ScrollViewer.VerticalScrollBarVisibility="Visible" Background="#FF797979">
                         </DataGrid>
                     </Grid>

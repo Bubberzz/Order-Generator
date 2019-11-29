@@ -61,6 +61,7 @@ namespace Order_Generator
                     writer.WriteElementString("town", dhTable.Rows[i][a++].ToString());
                     writer.WriteElementString("user_def_type_8", dhTable.Rows[i][a++].ToString());
                     writer.WriteStartElement("datalines");
+                    a = 1;
                     for (var j = 0; j < dlTable.Rows.Count; j++)
                     {
                         writer.WriteStartElement("dataline");
@@ -81,6 +82,7 @@ namespace Order_Generator
                         writer.WriteEndElement();
                         b = 0;
                     }
+                    writer.WriteEndElement();
                     writer.WriteEndElement();
                 }
                 writer.Flush();
