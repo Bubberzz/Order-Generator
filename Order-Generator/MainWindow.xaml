@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Order_Generator"
         mc:Ignorable="d"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
@@ -99,16 +98,13 @@
                                 ScrollViewer.VerticalScrollBarVisibility="Visible" Background="#FF797979">
                             </DataGrid>
                         </Grid>
-
                     </ContentControl>
-
-                    <TextBox x:Name="dataheaderTextBox" Visibility="Visible"  HorizontalAlignment="Left" Height="23" Margin="111,401,0,0" TextWrapping="Wrap" Text="Enter Dataheader ID" TextAlignment="Center" VerticalAlignment="Top" Width="120" Grid.ColumnSpan="2" Grid.Column="1" PreviewMouseDown="dataheaderTextBoxClick"/>
+                    <TextBox x:Name="dataheaderTextBox" Visibility="Visible"  HorizontalAlignment="Left" Height="23" Margin="111,401,0,0" TextWrapping="Wrap" Text="Enter Dataheader ID" TextAlignment="Center" VerticalAlignment="Top" Width="120" Grid.ColumnSpan="2" Grid.Column="1" PreviewMouseDown="dataheaderTextBoxClick" KeyDown="dataheaderTextBox_KeyDown"/>
                     <Button x:Name="loadBtn" Visibility="Visible"  Content="Load" HorizontalAlignment="Left" Margin="41,400,0,0" VerticalAlignment="Top" Width="72" Height="27" Grid.Column="2" Click="loadBtnClick"/>
                     <Button x:Name="nextBtn" Visibility="Visible"  Content="Next" HorizontalAlignment="Left" Margin="118,400,0,0" VerticalAlignment="Top" Width="72" Height="27" Grid.Column="2" Click="nextBtnClick"/>
                     <TextBox x:Name="datalineTextBox" Visibility="Hidden"  HorizontalAlignment="Left" Height="23" Margin="185,401,0,0" TextWrapping="Wrap" Text="Enter order amount" TextAlignment="Center" VerticalAlignment="Top" Width="120" Grid.ColumnSpan="2" Grid.Column="1" PreviewMouseDown="datalinesTextBoxClick"/>
                     <Button x:Name="createBtn" Visibility="Hidden"  Content="Create" HorizontalAlignment="Left" Margin="113,400,0,0" VerticalAlignment="Top" Width="77" Height="27" Grid.Column="2" Click="CreateBtn_OnClickBtnClick"/>
             </Grid>
-
             </materialDesign:Card>
     </materialDesign:DrawerHost>
 </Window>

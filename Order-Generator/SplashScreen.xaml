@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Order_Generator"
         mc:Ignorable="d"
-        Title="SplashScreen" Height="450" Width="800" WindowStyle="None" ResizeMode="NoResize" ShowInTaskbar="False" MouseDown="Card_MouseDown">
+        Title="SplashScreen" WindowStartupLocation="CenterScreen" Height="450" Width="800" WindowStyle="None" ResizeMode="NoResize" ShowInTaskbar="False" MouseDown="Card_MouseDown">
     <Grid Background="Black">
         <MediaElement x:Name="media" Visibility="Visible" UnloadedBehavior="Manual" MediaEnded="MediaElement_MediaEnded" Stretch="Fill" Margin="-3,-2,-3.4,-1.8"/>
     </Grid>

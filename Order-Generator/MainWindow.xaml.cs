@@ -1,17 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using System.Windows;
 using System.Windows.Input;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows.Threading;
-using Window = System.Windows.Window;
 using DataTable = System.Data.DataTable;
+using Window = System.Windows.Window;
 
 namespace Order_Generator
 {
     public partial class MainWindow : Window
     {
+        // Creates empty local data containers 
         private List<int> settings;
         private DataTable _dataheaderDataTable;
         private DataTable _datalinesDataTable;
@@ -21,20 +21,22 @@ namespace Order_Generator
         {
             Hide();
             InitializeComponent();
-            //initialiseDataline();
         }
 
+        // Loads data into data containers from excel and text files
         public void loadData()
         {
             settings = GetSettings.getSettings();
             _dataheaderDataTable = GetDataheader.getExcelData();
             _datalinesDataTable = GetDatalines.getExcelData();
             _selectedTable = new DataTable();
+            initialiseDataline();
         }
 
+        // Inject data from the settings file/list into Datalines data table
         private void initialiseDataline()
         {
-            foreach (var row in _datalinesDataTable.AsEnumerable())
+            foreach (DataRow row in _datalinesDataTable.AsEnumerable())
             {
                 row.SetField("Host_Line_Id", settings[1]);
                 row.SetField("Host_Order_Id", settings[0]);
@@ -45,6 +47,7 @@ namespace Order_Generator
             }
         }
 
+        // UI control
         private void Card_MouseDown(object sender, MouseButtonEventArgs e)
         {
             try
@@ -57,6 +60,7 @@ namespace Order_Generator
             }
         }
 
+        // UI control
         private void dataheaderBtnClicked(object sender, RoutedEventArgs e)
         {
             mainDrawer.IsLeftDrawerOpen = false;
@@ -70,6 +74,7 @@ namespace Order_Generator
             TBC.ItemsSource = _selectedTable.DefaultView;
         }
 
+        // UI control
         private void datalinesBtnClicked(object sender, RoutedEventArgs e)
         {
             mainDrawer.IsLeftDrawerOpen = false;
@@ -83,6 +88,7 @@ namespace Order_Generator
             TBC.ItemsSource = _datalinesDataTable.DefaultView;
         }
 
+        // UI control
         private void dataheaderRdioClick(object sender, RoutedEventArgs e)
         {
             mainDrawer.IsLeftDrawerOpen = false;
@@ -96,6 +102,7 @@ namespace Order_Generator
             TBC.ItemsSource = _selectedTable.DefaultView;
         }
 
+        // UI control
         private void datalinesRdioClick(object sender, RoutedEventArgs e)
         {
             mainDrawer.IsLeftDrawerOpen = false;
@@ -109,37 +116,44 @@ namespace Order_Generator
             TBC.ItemsSource = _datalinesDataTable.DefaultView;
         }
 
+        // UI control
         private void closeBtnClicked(object sender, RoutedEventArgs e)
         {
             Close();
         }
 
+        // UI control
         private void dataheaderTextBoxClick(object sender, MouseButtonEventArgs e)
         {
             dataheaderTextBox.Text = "";
         }
 
+        // UI control
         private void datalinesTextBoxClick(object sender, MouseButtonEventArgs e)
         {
             datalineTextBox.Text = "";
         }
 
+        // LINQ query to _dataheaderDataTable based on ID number
         private void loadBtnClick(object sender, RoutedEventArgs e)
         {
 
-            if (dataheaderTextBox.Text == "Enter Dataheader ID") return;
+            if (dataheaderTextBox.Text == "Enter Dataheader ID")
+            {
+                return;
+            }
+
             try
             {
-                var dataheaderID = Convert.ToString(dataheaderTextBox.Text);
+                string dataheaderID = Convert.ToString(dataheaderTextBox.Text);
                 _selectedTable = _dataheaderDataTable.AsEnumerable()
                     .Where(r => r.Field<string>("ID") == dataheaderID)
                     .CopyToDataTable();
 
-                foreach (var row in _selectedTable.AsEnumerable().Where(r => r.Field<string>("Order_Id") == "ENTERED by program"))
+                foreach (DataRow row in _selectedTable.AsEnumerable().Where(r => r.Field<string>("Order_Id") == "ENTERED by program"))
                 {
                     row.SetField("Order_Id", settings[0]);
                 }
-
                 TBC.ItemsSource = _selectedTable.DefaultView;
             }
             catch
@@ -148,6 +162,7 @@ namespace Order_Generator
             }
         }
 
+        // UI control
         private void nextBtnClick(object sender, RoutedEventArgs e)
         {
             mainDrawer.IsLeftDrawerOpen = false;
@@ -159,34 +174,30 @@ namespace Order_Generator
             datalineTextBox.Visibility = Visibility.Visible;
             createBtn.Visibility = Visibility.Visible;
             TBC.ItemsSource = _datalinesDataTable.DefaultView;
-
-            try
-            {
-                var dv = (DataView)TBC.ItemsSource;
-                var dt = ((DataView)TBC.ItemsSource).Table;
-            }
-            catch
-            {
-                //ignore
-            }
         }
 
+        // Event handler for Create button - builds data tables for order creation
         private void CreateBtn_OnClickBtnClick(object sender, RoutedEventArgs e)
         {
-            var dataheaderDataTable = _selectedTable.Clone();
-            var datalinesDataTable = _datalinesDataTable.Clone();
+            // Creates new empty data tables, copies data structure from existing data tables 
+            DataTable dataheaderDataTable = _selectedTable.Clone();
+            DataTable datalinesDataTable = _datalinesDataTable.Clone();
             int orderAmount;
 
             try
             {
+                // Tries to convert text box input into integer
                 orderAmount = Convert.ToInt32(datalineTextBox.Text);
             }
             catch (Exception)
             {
+                // If unable to convert text box data to integer, sets variable to 1
                 orderAmount = 1;
             }
 
-            for (var i = 0; i < orderAmount; i++)
+            // Populates dataheaderDataTable - depending on the amount of orders user selected
+            // and ignores empty fields
+            for (int i = 0; i < orderAmount; i++)
             {
                 foreach (DataRow dr in _selectedTable.Rows)
                 {
@@ -197,6 +208,7 @@ namespace Order_Generator
                 }
             }
 
+            // Removes empty fields from datalinesDataTable
             foreach (DataRow dr in _datalinesDataTable.Rows)
             {
                 if (!dr.IsNull("Client_Id"))
@@ -205,16 +217,31 @@ namespace Order_Generator
                 }
             }
 
+            // Increments the settings file by 1, for all values
             settings = settings.Select(x => x + 1).ToList();
             GetSettings.setSettings(settings);
+
+            // Initialises Dataline datatable with new settings values
             initialiseDataline();
+
+            // Clears the UI
             datalinesRadio.IsChecked = false;
             TBC.ItemsSource = null;
             _selectedTable.Clear();
-            var fileName = CreateXML.createXML(dataheaderDataTable, datalinesDataTable);
-            var path = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase);
+
+            // Creates the XML order file and saves to orders folder
+            string fileName = CreateXML.createXML(dataheaderDataTable, datalinesDataTable);
+            string path = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase);
             MessageBox.Show($@"{fileName} has been saved to {path}\orders", "Successfully saved!");
         }
 
+        // Enter key event handler
+        private void dataheaderTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Return)
+            {
+                loadBtnClick(sender, e);
+            }
+        }
     }
 }

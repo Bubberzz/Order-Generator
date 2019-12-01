@@ -1,27 +1,26 @@
 ﻿using System;
 using System.Text;
-using System.Windows.Navigation;
 using System.Xml;
 
 namespace Order_Generator
 {
     internal static class CreateXML
     {
+        // This method creates an XML schema, which can then be populated by with a data table
         public static string createXML(System.Data.DataTable dhTable, System.Data.DataTable dlTable)
         {
-            var settings = new XmlWriterSettings
+            XmlWriterSettings settings = new XmlWriterSettings
             {
                 Encoding = Encoding.UTF8,
                 Indent = true,
                 IndentChars = ("    "),
                 CloseOutput = true,
-                //OmitXmlDeclaration = true
             };
-            var fileName = $"order{DateTime.Now:yyyyMMddHHmmss}.xml";
-            using (var writer = XmlWriter.Create($@"orders\{fileName}", settings))
+            string fileName = $"order{DateTime.Now:yyyyMMddHHmmss}.xml";
+            using (XmlWriter writer = XmlWriter.Create($@"orders\{fileName}", settings))
             {
-                var a = 1;
-                var b = 0;
+                int a = 1;
+                int b = 0;
                 writer.WriteStartElement("dcsmergedata");
                 writer.WriteAttributeString("xmlns", "xsi", null, "http://www.w3.org/2001/XMLSchema-instance");
                 writer.WriteAttributeString("headertable", "interface_order_header");
@@ -31,7 +30,7 @@ namespace Order_Generator
                 writer.WriteAttributeString("updatecolumns", "yes");
                 writer.WriteAttributeString("xsi", "noNamespaceSchemaLocation", null, "../lib/interface_order_header.xsd");
                 writer.WriteStartElement("dataheaders");
-                for (var i = 0; i < dhTable.Rows.Count; i++)
+                for (int i = 0; i < dhTable.Rows.Count; i++)
                 {
                     writer.WriteStartElement("dataheader");
                     writer.WriteAttributeString("transaction", "add");
@@ -60,10 +59,10 @@ namespace Order_Generator
                     writer.WriteElementString("time_zone_name", dhTable.Rows[i][a++].ToString());
                     writer.WriteElementString("tod", dhTable.Rows[i][a++].ToString());
                     writer.WriteElementString("town", dhTable.Rows[i][a++].ToString());
-                    writer.WriteElementString("user_def_type_8", dhTable.Rows[i][a++].ToString());
+                    writer.WriteElementString("user_def_type_8", fileName);
                     writer.WriteStartElement("datalines");
                     a = 1;
-                    for (var j = 0; j < dlTable.Rows.Count; j++)
+                    for (int j = 0; j < dlTable.Rows.Count; j++)
                     {
                         writer.WriteStartElement("dataline");
                         writer.WriteAttributeString("transaction", "add");
