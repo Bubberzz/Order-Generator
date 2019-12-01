@@ -13,5 +13,6 @@ namespace Order_Generator
     /// </summary>
     public partial class App : Application
     {
+
     }
 }

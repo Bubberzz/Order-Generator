@@ -48,6 +48,7 @@ namespace Order_Generator
                     writer.WriteElementString("documentation_text_2", dhTable.Rows[i][a++].ToString());
                     writer.WriteElementString("expected_value", dhTable.Rows[i][a++].ToString());
                     writer.WriteElementString("from_site_id", dhTable.Rows[i][a++].ToString());
+                    writer.WriteElementString("instructions", dhTable.Rows[i][a++].ToString());
                     writer.WriteElementString("insurance_cost", dhTable.Rows[i][a++].ToString());
                     writer.WriteElementString("name", dhTable.Rows[i][a++].ToString());
                     writer.WriteElementString("order_date", dhTable.Rows[i][a++].ToString());
