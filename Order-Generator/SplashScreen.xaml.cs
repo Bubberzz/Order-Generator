@@ -17,7 +17,7 @@ namespace Order_Generator
         // Loads Main Window asynchronously, then closes Splash Screen once loaded
         private async void LoadMAinWindow()
         {
-            MainWindow mn = new MainWindow();
+            var mn = new MainWindow();
             await Task.Run(() => mn.loadData());
             await Task.Delay(5000);
             Close();
