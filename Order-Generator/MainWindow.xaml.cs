@@ -26,6 +26,7 @@ namespace Order_Generator
         // Loads data into data containers from excel and text files
         public void loadData()
         {
+            FilePaths.LoadFileLocations();
             settings = GetSettings.getSettings();
             _dataheaderDataTable = GetDataheader.getExcelData();
             _datalinesDataTable = GetDatalines.getExcelData();
@@ -36,7 +37,7 @@ namespace Order_Generator
         // Inject data from the settings file/list into Datalines data table
         private void initialiseDataline()
         {
-            foreach (DataRow row in _datalinesDataTable.AsEnumerable())
+            foreach (var row in _datalinesDataTable.AsEnumerable())
             {
                 row.SetField("Host_Line_Id", settings[1]);
                 row.SetField("Host_Order_Id", settings[0]);
@@ -143,14 +144,14 @@ namespace Order_Generator
                 return;
             }
 
+            var dataheaderID = Convert.ToString(dataheaderTextBox.Text);
             try
             {
-                string dataheaderID = Convert.ToString(dataheaderTextBox.Text);
                 _selectedTable = _dataheaderDataTable.AsEnumerable()
                     .Where(r => r.Field<string>("ID") == dataheaderID)
                     .CopyToDataTable();
 
-                foreach (DataRow row in _selectedTable.AsEnumerable().Where(r => r.Field<string>("Order_Id") == "ENTERED by program"))
+                foreach (var row in _selectedTable.AsEnumerable().Where(r => r.Field<string>("Order_Id") == "ENTERED by program"))
                 {
                     row.SetField("Order_Id", settings[0]);
                 }
@@ -180,8 +181,8 @@ namespace Order_Generator
         private void CreateBtn_OnClickBtnClick(object sender, RoutedEventArgs e)
         {
             // Creates new empty data tables, copies data structure from existing data tables 
-            DataTable dataheaderDataTable = _selectedTable.Clone();
-            DataTable datalinesDataTable = _datalinesDataTable.Clone();
+            var dataheaderDataTable = _selectedTable.Clone();
+            var datalinesDataTable = _datalinesDataTable.Clone();
             int orderAmount;
 
             try
@@ -197,7 +198,7 @@ namespace Order_Generator
 
             // Populates dataheaderDataTable - depending on the amount of orders user selected
             // and ignores empty fields
-            for (int i = 0; i < orderAmount; i++)
+            for (var i = 0; i < orderAmount; i++)
             {
                 foreach (DataRow dr in _selectedTable.Rows)
                 {
@@ -230,9 +231,9 @@ namespace Order_Generator
             _selectedTable.Clear();
 
             // Creates the XML order file and saves to orders folder
-            string fileName = CreateXML.createXML(dataheaderDataTable, datalinesDataTable);
-            string path = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase);
-            MessageBox.Show($@"{fileName} has been saved to {path}\orders", "Successfully saved!");
+            var fileName = CreateXML.createXML(dataheaderDataTable, datalinesDataTable);
+            var path = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase);
+            MessageBox.Show($@"{fileName} has been saved to {FilePaths.OrdersFolder}", "Successfully saved!");
         }
 
         // Enter key event handler

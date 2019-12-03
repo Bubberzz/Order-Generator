@@ -27,7 +27,7 @@ namespace Order_Generator
         // Starts the Splash Screen 
         private void StartSplashScreen()
         {
-            media.Source = new Uri(Environment.CurrentDirectory + @"\Loading.gif");
+            media.Source = new Uri(@"C:\Program Files (x86)\Asos\Order Generator\loading.gif");
             media.Play();
         }
 

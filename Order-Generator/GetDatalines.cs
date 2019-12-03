@@ -9,36 +9,36 @@ namespace Order_Generator
         // Reads the second sheet of excel file and writes it to a data table
         public static DataTable getExcelData()
         {
-            Excel.Application excelApp = new Excel.Application();
-            Excel.Workbook WB = excelApp.Workbooks.Open(@"C:\Users\Stan.bubbers\Desktop\PackOrder.xlsx");
-            Excel._Worksheet WS = WB.Sheets[2];
-            Excel.Range Range = WS.UsedRange;
-            int NumCols = Range.Columns.Count;
-            int NumRows = Range.Rows.Count;
-            object[] Fields = new string[NumCols];
-            DataTable dt = new DataTable();
-            object[,] values = (object[,])Range.Value2;
+            var excelApp = new Excel.Application();
+            var wb = excelApp.Workbooks.Open(FilePaths.PackOrder);
+            Excel._Worksheet ws = wb.Sheets[2];
+            var range = ws.UsedRange;
+            var numCols = range.Columns.Count;
+            var numRows = range.Rows.Count;
+            var fields = new object[numCols];
+            var dt = new DataTable();
+            var values = (object[,])range.Value2;
 
-            for (int NumCol = 1; NumCol <= NumCols; NumCol++)
+            for (var numCol = 1; numCol <= numCols; numCol++)
             {
-                DataColumn Column = new DataColumn
+                var column = new DataColumn
                 {
                     DataType = Type.GetType("System.String"),
-                    ColumnName = (values[1, NumCol]).ToString()
+                    ColumnName = (values[1, numCol]).ToString()
                 };
-                dt.Columns.Add(Column);
+                dt.Columns.Add(column);
             }
 
-            for (int NumRow = 2; NumRow <= NumRows; NumRow++)
+            for (var numRow = 2; numRow <= numRows; numRow++)
             {
 
-                for (int i = 1; i <= NumCols; i++)
+                for (var i = 1; i <= numCols; i++)
                 {
-                    Fields[i - 1] = Convert.ToString(values[NumRow, i]);
+                    fields[i - 1] = Convert.ToString(values[numRow, i]);
                 }
-                dt.Rows.Add(Fields);
+                dt.Rows.Add(fields);
             }
-            WB.Close(false, null, null);
+            wb.Close(false, null, null);
             excelApp.Quit();
             return dt;
         }

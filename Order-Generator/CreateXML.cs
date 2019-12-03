@@ -9,18 +9,18 @@ namespace Order_Generator
         // This method creates an XML schema, which can then be populated by with a data table
         public static string createXML(System.Data.DataTable dhTable, System.Data.DataTable dlTable)
         {
-            XmlWriterSettings settings = new XmlWriterSettings
+            var settings = new XmlWriterSettings
             {
                 Encoding = Encoding.UTF8,
                 Indent = true,
-                IndentChars = ("    "),
+                IndentChars = "    ",
                 CloseOutput = true,
             };
-            string fileName = $"order{DateTime.Now:yyyyMMddHHmmss}.xml";
-            using (XmlWriter writer = XmlWriter.Create($@"orders\{fileName}", settings))
+            var fileName = $"order{DateTime.Now:yyyyMMddHHmmss}.xml";
+            using (var writer = XmlWriter.Create(FilePaths.OrdersFolder + fileName, settings))
             {
-                int a = 1;
-                int b = 0;
+                var a = 1;
+                var b = 0;
                 writer.WriteStartElement("dcsmergedata");
                 writer.WriteAttributeString("xmlns", "xsi", null, "http://www.w3.org/2001/XMLSchema-instance");
                 writer.WriteAttributeString("headertable", "interface_order_header");
@@ -30,7 +30,7 @@ namespace Order_Generator
                 writer.WriteAttributeString("updatecolumns", "yes");
                 writer.WriteAttributeString("xsi", "noNamespaceSchemaLocation", null, "../lib/interface_order_header.xsd");
                 writer.WriteStartElement("dataheaders");
-                for (int i = 0; i < dhTable.Rows.Count; i++)
+                for (var i = 0; i < dhTable.Rows.Count; i++)
                 {
                     writer.WriteStartElement("dataheader");
                     writer.WriteAttributeString("transaction", "add");
@@ -62,7 +62,7 @@ namespace Order_Generator
                     writer.WriteElementString("user_def_type_8", fileName);
                     writer.WriteStartElement("datalines");
                     a = 1;
-                    for (int j = 0; j < dlTable.Rows.Count; j++)
+                    for (var j = 0; j < dlTable.Rows.Count; j++)
                     {
                         writer.WriteStartElement("dataline");
                         writer.WriteAttributeString("transaction", "add");
