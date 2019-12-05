@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 
 namespace Order_Generator
 {
-    public class GetSettings
+    public static class GetSettings
     {
         // Gets settings from file
         public static List<int> getSettings()

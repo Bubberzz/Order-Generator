@@ -21,6 +21,7 @@ namespace Order_Generator
             await Task.Run(() => mn.loadData());
             await Task.Delay(5000);
             Close();
+            media.Stop();
             mn.Show();
         }
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Text;
 using System.Xml;
 
@@ -9,6 +10,8 @@ namespace Order_Generator
         // This method creates an XML schema, which can then be populated by with a data table
         public static string createXML(System.Data.DataTable dhTable, System.Data.DataTable dlTable)
         {
+            var settingsList = GetSettings.getSettings();
+
             var settings = new XmlWriterSettings
             {
                 Encoding = Encoding.UTF8,
@@ -16,7 +19,7 @@ namespace Order_Generator
                 IndentChars = "    ",
                 CloseOutput = true,
             };
-            var fileName = $"order{DateTime.Now:yyyyMMddHHmmss}.xml";
+            var fileName = $"Order{DateTime.Now:yyyyMMddHHmmss}.xml";
             using (var writer = XmlWriter.Create(FilePaths.OrdersFolder + fileName, settings))
             {
                 var a = 1;
@@ -51,14 +54,14 @@ namespace Order_Generator
                     writer.WriteElementString("insurance_cost", dhTable.Rows[i][a++].ToString());
                     writer.WriteElementString("name", dhTable.Rows[i][a++].ToString());
                     writer.WriteElementString("order_date", dhTable.Rows[i][a++].ToString());
-                    writer.WriteElementString("order_id", dhTable.Rows[i][a++].ToString());
-                    writer.WriteElementString("order_type", dhTable.Rows[i][a++].ToString());
-                    writer.WriteElementString("owner_id", dhTable.Rows[i][a++].ToString());
-                    writer.WriteElementString("postcode", dhTable.Rows[i][a++].ToString());
-                    writer.WriteElementString("status", dhTable.Rows[i][a++].ToString());
-                    writer.WriteElementString("time_zone_name", dhTable.Rows[i][a++].ToString());
-                    writer.WriteElementString("tod", dhTable.Rows[i][a++].ToString());
-                    writer.WriteElementString("town", dhTable.Rows[i][a++].ToString());
+                    writer.WriteElementString("order_id", settingsList[0].ToString());
+                    writer.WriteElementString("order_type", dhTable.Rows[i][++a].ToString());
+                    writer.WriteElementString("owner_id", dhTable.Rows[i][++a].ToString());
+                    writer.WriteElementString("postcode", dhTable.Rows[i][++a].ToString());
+                    writer.WriteElementString("status", dhTable.Rows[i][++a].ToString());
+                    writer.WriteElementString("time_zone_name", dhTable.Rows[i][++a].ToString());
+                    writer.WriteElementString("tod", dhTable.Rows[i][++a].ToString());
+                    writer.WriteElementString("town", dhTable.Rows[i][++a].ToString());
                     writer.WriteElementString("user_def_type_8", fileName);
                     writer.WriteStartElement("datalines");
                     a = 1;
@@ -66,27 +69,30 @@ namespace Order_Generator
                     {
                         writer.WriteStartElement("dataline");
                         writer.WriteAttributeString("transaction", "add");
-                        writer.WriteElementString("client_id", dlTable.Rows[j][b++].ToString());
-                        writer.WriteElementString("host_line_id", dlTable.Rows[j][b++].ToString());
-                        writer.WriteElementString("host_order_id", dlTable.Rows[j][b++].ToString());
-                        writer.WriteElementString("line_id", dlTable.Rows[j][b++].ToString());
-                        writer.WriteElementString("order_id", dlTable.Rows[j][b++].ToString());
-                        writer.WriteElementString("owner_id", dlTable.Rows[j][b++].ToString());
-                        writer.WriteElementString("product_price", dlTable.Rows[j][b++].ToString());
-                        writer.WriteElementString("qty_ordered", dlTable.Rows[j][b++].ToString());
-                        writer.WriteElementString("sku_id", dlTable.Rows[j][b++].ToString());
-                        writer.WriteElementString("tax_1", dlTable.Rows[j][b++].ToString());
+                        writer.WriteElementString("client_id", dlTable.Rows[j][0].ToString());
+                        writer.WriteElementString("host_line_id", settingsList[1].ToString());
+                        writer.WriteElementString("host_order_id", settingsList[0].ToString());
+                        writer.WriteElementString("line_id", settingsList[2].ToString());
+                        writer.WriteElementString("order_id", settingsList[0].ToString());
+                        writer.WriteElementString("owner_id", dlTable.Rows[j][b = 5].ToString());
+                        writer.WriteElementString("product_price", dlTable.Rows[j][++b].ToString());
+                        writer.WriteElementString("qty_ordered", dlTable.Rows[j][++b].ToString());
+                        writer.WriteElementString("sku_id", dlTable.Rows[j][++b].ToString());
+                        writer.WriteElementString("tax_1", dlTable.Rows[j][++b].ToString());
                         writer.WriteElementString("time_zone_name", dlTable.Rows[j][b++].ToString());
-                        writer.WriteElementString("user_def_num_2", dlTable.Rows[j][b++].ToString());
-                        writer.WriteElementString("user_def_type_8", dlTable.Rows[j][b++].ToString());
+                        writer.WriteElementString("user_def_num_2", settingsList[1].ToString());
+                        writer.WriteElementString("user_def_type_8", settingsList[2].ToString());
                         writer.WriteEndElement();
                         b = 0;
                     }
                     writer.WriteEndElement();
                     writer.WriteEndElement();
+                    settingsList = settingsList.Select(x => x + 1).ToList();
                 }
                 writer.Flush();
             }
+            // Increments the settings file by 1, for all values
+            GetSettings.setSettings(settingsList);
             return fileName;
         }
     }

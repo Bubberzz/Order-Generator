@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -218,13 +219,6 @@ namespace Order_Generator
                 }
             }
 
-            // Increments the settings file by 1, for all values
-            settings = settings.Select(x => x + 1).ToList();
-            GetSettings.setSettings(settings);
-
-            // Initialises Dataline datatable with new settings values
-            initialiseDataline();
-
             // Clears the UI
             datalinesRadio.IsChecked = false;
             TBC.ItemsSource = null;
@@ -234,6 +228,10 @@ namespace Order_Generator
             var fileName = CreateXML.createXML(dataheaderDataTable, datalinesDataTable);
             var path = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase);
             MessageBox.Show($@"{fileName} has been saved to {FilePaths.OrdersFolder}", "Successfully saved!");
+            
+            // Gets new (incremented) settings and initialises Dataline gridview 
+            settings = GetSettings.getSettings();
+            initialiseDataline();
         }
 
         // Enter key event handler
