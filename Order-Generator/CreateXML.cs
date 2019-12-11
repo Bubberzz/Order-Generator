@@ -58,10 +58,13 @@ namespace Order_Generator
                     writer.WriteElementString("order_type", dhTable.Rows[i][++a].ToString());
                     writer.WriteElementString("owner_id", dhTable.Rows[i][++a].ToString());
                     writer.WriteElementString("postcode", dhTable.Rows[i][++a].ToString());
+                    writer.WriteElementString("ship_by_date", dhTable.Rows[i][++a].ToString());
+                    writer.WriteElementString("soh_id", dhTable.Rows[i][++a].ToString());
                     writer.WriteElementString("status", dhTable.Rows[i][++a].ToString());
                     writer.WriteElementString("time_zone_name", dhTable.Rows[i][++a].ToString());
                     writer.WriteElementString("tod", dhTable.Rows[i][++a].ToString());
                     writer.WriteElementString("town", dhTable.Rows[i][++a].ToString());
+                    writer.WriteElementString("User_Def_Date_1", dhTable.Rows[i][++a].ToString());
                     writer.WriteElementString("user_def_type_8", fileName);
                     writer.WriteStartElement("datalines");
                     a = 1;

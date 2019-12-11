@@ -19,7 +19,7 @@ namespace Order_Generator
         {
             var mn = new MainWindow();
             await Task.Run(() => mn.loadData());
-            await Task.Delay(5000);
+            //await Task.Delay(5000);
             Close();
             media.Stop();
             mn.Show();
